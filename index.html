@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MealAI – personalized meal planning and nutrition tracking."
+    />
+    <title>MealAI - AI Meal Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section id="loginScreen" class="auth-screen">
+      <div class="auth-card">
+        <div class="logo">
+          <span class="logo-icon">🍃</span><span>Meal<span>AI</span></span>
+        </div>
+        <h1>Welcome Back</h1>
+        <p class="auth-subtitle">Plan smarter. Eat healthier.</p>
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="loginEmail">Email</label
+            ><input
+              id="loginEmail"
+              type="email"
+              autocomplete="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="loginPassword">Password</label
+            ><input
+              id="loginPassword"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button type="submit" class="primary-btn">Login</button>
+        </form>
+        <p class="switch-auth">
+          Don't have an account?
+          <button id="showRegisterBtn" type="button" class="text-btn">
+            Create Account
+          </button>
+        </p>
+      </div>
+    </section>
+
+    <section id="registerScreen" class="auth-screen hidden">
+      <div class="auth-card">
+        <div class="logo">
+          <span class="logo-icon">🍃</span><span>Meal<span>AI</span></span>
+        </div>
+        <h1>Create Account</h1>
+        <p class="auth-subtitle">Start your healthy journey.</p>
+        <form id="registerForm">
+          <div class="input-group">
+            <label for="registerName">Full name</label
+            ><input
+              id="registerName"
+              type="text"
+              autocomplete="name"
+              placeholder="Enter your full name"
+              minlength="2"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="registerEmail">Email</label
+            ><input
+              id="registerEmail"
+              type="email"
+              autocomplete="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="registerPassword">Password</label
+            ><input
+              id="registerPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Create a password"
+              minlength="6"
+              required
+            />
+          </div>
+          <button type="submit" class="primary-btn">Create Account</button>
+        </form>
+        <p class="switch-auth">
+          Already have an account?
+          <button id="showLoginBtn" type="button" class="text-btn">
+            Login
+          </button>
+        </p>
+      </div>
+    </section>
+
+    <div id="app" class="app hidden">
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header"><h2>🌿 MealAI</h2></div>
+        <nav class="sidebar-nav" aria-label="Main navigation">
+          <button type="button" class="nav-item active" data-page="dashboard">
+            🏠 Dashboard
+          </button>
+          <button type="button" class="nav-item" data-page="mealPlanner">
+            🍽️ Meal Planner
+          </button>
+          <button type="button" class="nav-item" data-page="calendar">
+            📅 Calendar
+          </button>
+          <button type="button" class="nav-item" data-page="nutrition">
+            📊 Nutrition
+          </button>
+          <button type="button" class="nav-item" data-page="grocery">
+            🛒 Grocery List
+          </button>
+          <button type="button" class="nav-item" data-page="favorites">
+            ❤️ Favorites
+          </button>
+          <button type="button" class="nav-item" data-page="recipes">
+            📖 Recipes
+          </button>
+          <button type="button" class="nav-item" data-page="aiAssistant">
+            🤖 AI Assistant
+          </button>
+          <button type="button" class="nav-item" data-page="profile">
+            👤 My Profile
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <button id="logoutBtn" type="button" class="logout-btn">
+            🚪 Logout
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button
+            id="menuBtn"
+            type="button"
+            class="menu-btn"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+          >
+            ☰
+          </button>
+          <div class="topbar-title">
+            <h2 id="pageTitle">Dashboard</h2>
+            <p id="pageSubtitle">Here's your healthy plan for today.</p>
+          </div>
+          <button
+            id="themeToggleBtn"
+            type="button"
+            class="theme-toggle-btn"
+            aria-label="Toggle dark mode"
+            title="Toggle dark mode"
+          >🌙</button>
+          <button
+            id="userAvatar"
+            type="button"
+            class="user-avatar"
+            aria-label="Open profile"
+          >
+            U
+          </button>
+        </header>
+
+        <section id="dashboard" class="page active-page">
+          <div class="welcome-card">
+            <div>
+              <p>Good day 👋</p>
+              <h1 id="welcomeName">Welcome!</h1>
+              <p>Your AI-powered healthy meal plan is ready.</p>
+            </div>
+            <div class="welcome-icon">🥗</div>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card">
+              <span>🔥</span>
+              <div>
+                <small>Calories today</small
+                ><strong id="todayCalories">0</strong><small>kcal</small>
+              </div>
+            </article>
+            <article class="stat-card">
+              <span>🍽️</span>
+              <div>
+                <small>Meals eaten</small><strong id="completedMeals">0</strong
+                ><small>today</small>
+              </div>
+            </article>
+            <article class="stat-card water-card">
+              <span>💧</span>
+              <div>
+                <small>Water</small><strong id="waterCount">0</strong
+                ><small>glasses</small>
+              </div>
+              <div class="water-controls">
+                <button
+                  id="waterMinusBtn"
+                  type="button"
+                  aria-label="Remove one glass of water"
+                >
+                  −
+                </button>
+                <button
+                  id="waterPlusBtn"
+                  type="button"
+                  aria-label="Add one glass of water"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+            <article class="stat-card">
+              <span>🌱</span>
+              <div>
+                <small>Healthy score</small
+                ><strong id="healthyScoreValue">0%</strong><small>today</small>
+              </div>
+            </article>
+            <article class="stat-card">
+              <span>🏅</span>
+              <div>
+                <small>Day streak</small
+                ><strong id="streakCount">0</strong><small>days</small>
+              </div>
+            </article>
+          </div>
+          <div class="section-heading">
+            <div>
+              <h2>Today's Meals</h2>
+              <p>Check each meal after you have eaten it.</p>
+            </div>
+          </div>
+          <div id="todayMealsGrid" class="meals-grid" aria-live="polite"></div>
+        </section>
+
+        <section id="mealPlanner" class="page">
+          <div class="page-header">
+            <h1>AI Meal Planner</h1>
+            <p>Tell MealAI what works for you and generate a plan.</p>
+          </div>
+          <div class="form-card">
+            <div class="form-grid">
+              <div class="input-group">
+                <label for="goal">Your goal</label
+                ><select id="goal">
+                  <option value="Healthy Lifestyle">Healthy Lifestyle</option>
+                  <option value="Weight Management">Weight Management</option>
+                  <option value="Muscle Building">Muscle Building</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="diet">Diet preference</label
+                ><select id="diet">
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Non-Vegetarian">Non-Vegetarian</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="Eggetarian">Eggetarian</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="mealCount">Meals per day</label
+                ><select id="mealCount">
+                  <option value="2">2 meals</option>
+                  <option value="3" selected>3 meals</option>
+                  <option value="4">4 meals</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="cookingTime">Maximum cooking time</label
+                ><select id="cookingTime">
+                  <option value="15">15 minutes</option>
+                  <option value="30" selected>30 minutes</option>
+                  <option value="45">45 minutes</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="cuisine">Preferred cuisine</label>
+                <input id="cuisine" type="text" value="Indian" placeholder="e.g. Indian" />
+              </div>
+              <div class="input-group">
+                <label for="plannerHealthCondition">Health condition</label
+                ><select id="plannerHealthCondition">
+                  <option value="">None</option>
+                  <option value="diabetes">Diabetes</option>
+                  <option value="cholesterol">High cholesterol</option>
+                  <option value="hypertension">
+                    Hypertension / high blood pressure
+                  </option>
+                </select>
+              </div>
+              <div class="input-group full-width">
+                <label>Food allergies</label>
+                <div
+                  id="plannerAllergiesOptions"
+                  class="options-grid"
+                  data-option-group="allergies"
+                >
+                  <label class="option-pill"
+                    ><input type="checkbox" value="nuts" /><span
+                      >🥜 Nuts</span
+                    ></label
+                  >
+                  <label class="option-pill"
+                    ><input type="checkbox" value="dairy" /><span
+                      >🥛 Dairy</span
+                    ></label
+                  >
+                  <label class="option-pill"
+                    ><input type="checkbox" value="egg" /><span
+                      >🥚 Eggs</span
+                    ></label
+                  >
+                  <label class="option-pill"
+                    ><input type="checkbox" value="soy" /><span
+                      >🌱 Soy</span
+                    ></label
+                  >
+                  <label class="option-pill"
+                    ><input type="checkbox" value="gluten" /><span
+                      >🌾 Gluten / Wheat</span
+                    ></label
+                  >
+                  <label class="option-pill"
+                    ><input type="checkbox" value="seafood" /><span
+                      >🦐 Seafood</span
+                    ></label
+                  >
+                </div>
+              </div>
+            </div>
+            <button id="generatePlanBtn" type="button" class="primary-btn">
+              ✨ Generate My Meal Plan
+            </button>
+          </div>
+          <div
+            id="generatedPlan"
+            class="meals-grid hidden"
+            aria-live="polite"
+          ></div>
+        </section>
+
+        <section id="calendar" class="page">
+          <div class="page-header">
+            <h1>Meal Calendar</h1>
+            <p>Select a date to review meals and nutrition.</p>
+          </div>
+          <div class="calendar-card">
+            <div class="calendar-header">
+              <button
+                id="previousMonthBtn"
+                type="button"
+                aria-label="Previous month"
+              >
+                ‹
+              </button>
+              <h2 id="calendarMonthTitle"></h2>
+              <button id="nextMonthBtn" type="button" aria-label="Next month">
+                ›
+              </button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span
+              ><span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+            <div id="calendarGrid" class="calendar-grid"></div>
+          </div>
+          <div id="calendarDayDetails" class="calendar-day-details hidden">
+            <div class="calendar-details-header">
+              <div>
+                <span class="details-label">SELECTED DATE</span>
+                <h2 id="calendarDetailsTitle">Today's details</h2>
+              </div>
+              <button
+                id="closeCalendarDetailsBtn"
+                type="button"
+                class="close-details-btn"
+                aria-label="Close date details"
+              >
+                ×
+              </button>
+            </div>
+            <div class="daily-summary-grid">
+              <div class="daily-summary-card">
+                <small>Calories</small
+                ><strong id="selectedDateCalories">0 kcal</strong>
+              </div>
+              <div class="daily-summary-card">
+                <small>Protein</small
+                ><strong id="selectedDateProtein">0 g</strong>
+              </div>
+              <div class="daily-summary-card">
+                <small>Carbohydrates</small
+                ><strong id="selectedDateCarbs">0 g</strong>
+              </div>
+              <div class="daily-summary-card">
+                <small>Fats</small><strong id="selectedDateFats">0 g</strong>
+              </div>
+              <div class="daily-summary-card">
+                <small>Meals eaten</small
+                ><strong id="selectedDateMeals">0 meals</strong>
+              </div>
+            </div>
+            <div class="date-meals-section">
+              <h3>Meals Eaten</h3>
+              <div
+                id="calendarDetailsList"
+                class="selected-date-meals-list"
+              ></div>
+            </div>
+            <div class="nutrition-breakdown">
+              <div class="breakdown-item">
+                <strong id="dayCaloriesText">0 / 2000 kcal</strong>
+                <div class="progress"><div id="dayCaloriesProgress"></div></div>
+              </div>
+              <div class="breakdown-item">
+                <strong id="dayProteinText">0 / 80 g</strong>
+                <div class="progress"><div id="dayProteinProgress"></div></div>
+              </div>
+              <div class="breakdown-item">
+                <strong id="dayCarbsText">0 / 250 g</strong>
+                <div class="progress"><div id="dayCarbsProgress"></div></div>
+              </div>
+              <div class="breakdown-item">
+                <strong id="dayFatsText">0 / 65 g</strong>
+                <div class="progress"><div id="dayFatsProgress"></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="nutrition" class="page">
+          <div class="page-header">
+            <h1>Nutrition</h1>
+            <p>Your totals are updated from the meals you check.</p>
+          </div>
+          <div class="nutrition-grid">
+            <article class="nutrition-card">
+              <h3>🔥 Calories</h3>
+              <strong id="nutritionCalories">0 kcal</strong
+              ><span id="nutritionCaloriesGoal">2000 kcal</span>
+              <div class="progress"><div id="caloriesProgress"></div></div>
+            </article>
+            <article class="nutrition-card">
+              <h3>💪 Protein</h3>
+              <strong id="nutritionProtein">0 g</strong
+              ><span id="nutritionProteinGoal">80 g</span>
+              <div class="progress"><div id="proteinProgress"></div></div>
+            </article>
+            <article class="nutrition-card">
+              <h3>🌾 Carbohydrates</h3>
+              <strong id="nutritionCarbs">0 g</strong
+              ><span id="nutritionCarbsGoal">250 g</span>
+              <div class="progress"><div id="carbsProgress"></div></div>
+            </article>
+            <article class="nutrition-card">
+              <h3>🥑 Fats</h3>
+              <strong id="nutritionFats">0 g</strong
+              ><span id="nutritionFatsGoal">65 g</span>
+              <div class="progress"><div id="fatsProgress"></div></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="grocery" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Grocery List</h1>
+              <p>Auto-filled from your generated meal plans — add extras any time.</p>
+            </div>
+            <button id="addGroceryBtn" type="button" class="primary-btn">
+              + Add Item
+            </button>
+          </div>
+          <div class="form-card">
+            <ul id="groceryList" class="grocery-list"></ul>
+          </div>
+        </section>
+
+        <section id="favorites" class="page">
+          <div class="page-header">
+            <h1>Favorite Meals</h1>
+            <p>Your saved meals from the dashboard and planner.</p>
+          </div>
+          <div class="page-tools">
+            <input id="favoriteSearch" class="page-search" type="search" placeholder="Search favorite meals..." autocomplete="off" />
+          </div>
+          <p id="favoritesEmpty" class="empty-state">
+            No favorites yet. Save a meal to find it here.
+          </p>
+          <div id="favoritesGrid" class="meals-grid"></div>
+        </section>
+
+        <section id="recipes" class="page">
+          <div class="page-header">
+            <div>
+              <h1>Recipes</h1>
+              <p>Browse recipes and add your own personal recipes.</p>
+            </div>
+            <button id="addRecipeBtn" type="button" class="primary-btn">+ Add Recipe</button>
+          </div>
+
+          <div class="recipes-section">
+            <div class="section-heading recipe-section-heading">
+              <div>
+                <h2>My Recipes</h2>
+                <p>Recipes you have added to your MealAI account.</p>
+              </div>
+            </div>
+            <div class="page-tools">
+              <input id="myRecipeSearch" class="page-search" type="search" placeholder="Search your recipes..." autocomplete="off" />
+            </div>
+            <p id="myRecipesEmpty" class="empty-state">You have not added any recipes yet.</p>
+            <div id="myRecipesGrid" class="recipes-grid"></div>
+          </div>
+
+          <div class="recipes-section">
+            <div class="section-heading recipe-section-heading">
+              <div>
+                <h2>MealAI Recipes</h2>
+                <p>Recipes provided by MealAI and your administrator.</p>
+              </div>
+            </div>
+            <div class="page-tools">
+              <input id="recipeSearch" class="page-search" type="search" placeholder="Search recipes..." autocomplete="off" />
+            </div>
+            <div id="recipesGrid" class="recipes-grid"></div>
+          </div>
+        </section>
+
+        <div id="addRecipeModal" class="recipe-modal hidden">
+          <div class="recipe-modal-backdrop" data-action="close-user-recipe" data-close-add-recipe></div>
+          <div class="recipe-modal-card recipe-form-modal-card">
+            <button type="button" class="recipe-modal-close" data-action="close-user-recipe" data-close-add-recipe aria-label="Close add recipe">×</button>
+            <h2 id="addRecipeModalTitle">Add Your Recipe</h2>
+            <p class="recipe-form-intro">Create a recipe that will be saved to your account.</p>
+            <form id="userRecipeForm" class="recipe-form">
+              <input id="userRecipeId" type="hidden" />
+              <div class="form-grid">
+                <div class="input-group">
+                  <label for="userRecipeName">Recipe name *</label>
+                  <input id="userRecipeName" type="text" placeholder="e.g. Paneer Tikka" required />
+                </div>
+                <div class="input-group">
+                  <label for="userRecipeEmoji">Emoji</label>
+                  <input id="userRecipeEmoji" type="text" maxlength="4" value="📖" placeholder="🍲" />
+                </div>
+                <div class="input-group full-width">
+                  <label for="userRecipeDescription">Description</label>
+                  <textarea id="userRecipeDescription" rows="2" placeholder="A short description of your recipe"></textarea>
+                </div>
+                <div class="input-group">
+                  <label for="userRecipeType">Meal type</label>
+                  <select id="userRecipeType">
+                    <option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option><option>Dessert</option><option>Recipe</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="userRecipeDiet">Diet</label>
+                  <select id="userRecipeDiet">
+                    <option value="vegetarian">Vegetarian</option><option value="non-vegetarian">Non-Vegetarian</option><option value="vegan">Vegan</option><option value="eggetarian">Eggetarian</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="userRecipeCuisine">Cuisine</label>
+                  <input id="userRecipeCuisine" type="text" value="Indian" placeholder="Indian" />
+                </div>
+                <div class="input-group">
+                  <label for="userRecipeTime">Time (minutes)</label>
+                  <input id="userRecipeTime" type="number" min="1" value="30" required />
+                </div>
+                <div class="input-group"><label for="userRecipeCalories">Calories</label><input id="userRecipeCalories" type="number" min="0" value="0" /></div>
+                <div class="input-group"><label for="userRecipeProtein">Protein (g)</label><input id="userRecipeProtein" type="number" min="0" value="0" /></div>
+                <div class="input-group"><label for="userRecipeCarbs">Carbs (g)</label><input id="userRecipeCarbs" type="number" min="0" value="0" /></div>
+                <div class="input-group"><label for="userRecipeFats">Fats (g)</label><input id="userRecipeFats" type="number" min="0" value="0" /></div>
+                <div class="input-group full-width">
+                  <label for="userRecipeIngredients">Ingredients *</label>
+                  <textarea id="userRecipeIngredients" rows="5" placeholder="Enter one ingredient per line
+1 cup paneer
+1 tsp spices
+1 tbsp oil" required></textarea>
+                  <small class="field-hint">Enter one ingredient per line.</small>
+                </div>
+                <div class="input-group full-width">
+                  <label for="userRecipeInstructions">Instructions *</label>
+                  <textarea id="userRecipeInstructions" rows="6" placeholder="Enter one step per line
+Prepare the ingredients.
+Cook until done.
+Serve hot." required></textarea>
+                  <small class="field-hint">Enter one cooking step per line.</small>
+                </div>
+              </div>
+              <div class="recipe-form-actions">
+                <button type="button" class="secondary-btn" data-action="close-user-recipe" data-close-add-recipe>Cancel</button>
+                <button id="saveUserRecipeBtn" type="submit" class="primary-btn">Save Recipe</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="recipeModal" class="recipe-modal hidden">
+          <div class="recipe-modal-backdrop" data-action="close-recipe" data-close-recipe></div>
+          <div class="recipe-modal-card">
+            <button
+              type="button"
+              class="recipe-modal-close"
+              data-action="close-recipe" data-close-recipe
+              aria-label="Close recipe"
+            >
+              ×
+            </button>
+            <h2 id="recipeModalTitle">Recipe</h2>
+            <small id="recipeModalMeta"></small>
+
+            <h3>Ingredients</h3>
+            <ul id="recipeModalIngredients" class="recipe-ingredients"></ul>
+
+            <h3>Instructions</h3>
+            <ol id="recipeModalInstructions" class="recipe-instructions"></ol>
+          </div>
+        </div>
+
+        <section id="aiAssistant" class="page">
+          <div class="page-header">
+            <h1>AI Assistant</h1>
+            <p>Ask for ideas about meals, nutrition, or recipes.</p>
+          </div>
+          <div class="chat-card">
+            <div id="chatMessages" class="chat-messages" aria-live="polite">
+              <div class="chat-message assistant">
+                Hi! What would you like help with today?
+              </div>
+            </div>
+            <form id="chatForm" class="chat-form">
+              <input
+                id="chatInput"
+                type="text"
+                placeholder="Ask MealAI a question…"
+                autocomplete="off"
+              /><button type="submit" class="primary-btn">Send</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="profile" class="page">
+          <div class="page-header">
+            <h1>My Profile</h1>
+            <p>Keep your preferences up to date for better recommendations.</p>
+          </div>
+          <div class="profile-layout">
+            <aside class="profile-card">
+              <div id="profileAvatar" class="profile-avatar">U</div>
+              <h2 id="profileName">User</h2>
+              <p id="profileEmail"></p>
+            </aside>
+            <form id="profileForm" class="profile-form-card">
+              <div class="form-grid">
+                <div class="input-group">
+                  <label for="profileNameInput">Full name</label
+                  ><input id="profileNameInput" type="text" required />
+                </div>
+                <div class="input-group">
+                  <label for="profileEmailInput">Email</label
+                  ><input id="profileEmailInput" type="email" readonly />
+                </div>
+                <div class="input-group">
+                  <label for="profileDiet">Diet preference</label
+                  ><select id="profileDiet">
+                    <option value="">Choose a preference</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Non-Vegetarian">Non-Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Eggetarian">Eggetarian</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="calorieGoal">Daily calorie goal</label
+                  ><input id="calorieGoal" type="number" min="1" value="2000" />
+                </div>
+                <div class="input-group">
+                  <label for="profileHealthCondition">Health condition</label
+                  ><select id="profileHealthCondition">
+                    <option value="">None</option>
+                    <option value="diabetes">Diabetes</option>
+                    <option value="cholesterol">High cholesterol</option>
+                    <option value="hypertension">
+                      Hypertension / high blood pressure
+                    </option>
+                  </select>
+                </div>
+                <div class="input-group full-width">
+                  <label>Food allergies</label>
+                  <div
+                    id="profileAllergiesOptions"
+                    class="options-grid"
+                    data-option-group="allergies"
+                  >
+                    <label class="option-pill"
+                      ><input type="checkbox" value="nuts" /><span
+                        >🥜 Nuts</span
+                      ></label
+                    >
+                    <label class="option-pill"
+                      ><input type="checkbox" value="dairy" /><span
+                        >🥛 Dairy</span
+                      ></label
+                    >
+                    <label class="option-pill"
+                      ><input type="checkbox" value="egg" /><span
+                        >🥚 Eggs</span
+                      ></label
+                    >
+                    <label class="option-pill"
+                      ><input type="checkbox" value="soy" /><span
+                        >🌱 Soy</span
+                      ></label
+                    >
+                    <label class="option-pill"
+                      ><input type="checkbox" value="gluten" /><span
+                        >🌾 Gluten / Wheat</span
+                      ></label
+                    >
+                    <label class="option-pill"
+                      ><input type="checkbox" value="seafood" /><span
+                        >🦐 Seafood</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="primary-btn">Save Profile</button>
+            </form>
+          </div>
+
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

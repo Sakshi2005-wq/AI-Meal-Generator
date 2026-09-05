@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MealAI Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="shell">
+    <section id="loginView" class="card login-card">
+      <div class="brand">🌿 MealAI</div>
+      <h1>Admin Panel</h1>
+      <p>Secure administration for the MealAI application.</p>
+      <form id="adminLoginForm">
+        <label>Email<input id="adminEmail" type="email" autocomplete="username" required></label>
+        <label>Password<input id="adminPassword" type="password" autocomplete="current-password" required></label>
+        <button type="submit">Sign in as Admin</button>
+        <div id="loginMessage" class="message"></div>
+      </form>
+    </section>
+
+    <section id="panelView" class="hidden">
+      <header class="topbar">
+        <div><div class="brand">🌿 MealAI</div><h1>Admin Dashboard</h1></div>
+        <button id="logoutBtn" class="secondary">Logout</button>
+      </header>
+
+      <div id="adminMessage" class="message"></div>
+      <div class="stats">
+        <div class="stat"><span>Total users</span><strong id="totalUsers">0</strong></div>
+        <div class="stat"><span>Active</span><strong id="activeUsers">0</strong></div>
+        <div class="stat"><span>Suspended</span><strong id="suspendedUsers">0</strong></div>
+        <div class="stat"><span>Favorites saved</span><strong id="totalFavorites">0</strong></div>
+        <div class="stat"><span>Meals marked eaten</span><strong id="totalEatenMeals">0</strong></div>
+      </div>
+
+      <nav class="tabs" id="adminTabs">
+        <button class="tab-btn active" data-tab="users">Users</button>
+        <button class="tab-btn" data-tab="meals">Meals</button>
+        <button class="tab-btn" data-tab="recipes">Recipes</button>
+      </nav>
+
+      <!-- USERS TAB -->
+      <section class="tab-panel" id="tab-users">
+        <section class="card users-card">
+          <div class="section-head"><div><h2>User Management</h2><p>View and manage registered users. Passwords and private meal contents are never shown here.</p></div><button id="refreshBtn" class="secondary">Refresh</button></div>
+          <div class="toolbar"><input id="searchInput" placeholder="Search by name or email"><button id="searchBtn">Search</button></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Goal</th><th>Diet</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+              <tbody id="usersBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- MEALS TAB -->
+      <section class="tab-panel hidden" id="tab-meals">
+        <section class="card users-card">
+          <div class="section-head">
+            <div><h2>Add a Meal</h2><p>Meals added here appear in every user's AI-generated meal plans.</p></div>
+          </div>
+          <form id="mealForm" class="entity-form">
+            <div class="form-grid">
+              <label>Name<input id="mealName" required placeholder="Paneer Butter Masala"></label>
+              <label>Emoji<input id="mealEmoji" placeholder="🍽️" maxlength="4"></label>
+              <label>Meal type
+                <select id="mealType">
+                  <option>Breakfast</option>
+                  <option selected>Lunch</option>
+                  <option>Dinner</option>
+                  <option>Snack</option>
+                </select>
+              </label>
+              <label>Diet
+                <select id="mealDiet">
+                  <option value="vegetarian" selected>Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                  <option value="non-vegetarian">Non-vegetarian</option>
+                  <option value="eggetarian">Eggetarian</option>
+                </select>
+              </label>
+              <label>Cuisine<input id="mealCuisine" placeholder="Indian" value="Indian"></label>
+              <label>Cooking time (minutes)<input id="mealTime" type="number" min="1" value="30"></label>
+              <label>Calories<input id="mealCalories" type="number" min="0" value="0"></label>
+              <label>Protein (g)<input id="mealProtein" type="number" min="0" value="0"></label>
+              <label>Carbs (g)<input id="mealCarbs" type="number" min="0" value="0"></label>
+              <label>Fats (g)<input id="mealFats" type="number" min="0" value="0"></label>
+            </div>
+            <label>Description<textarea id="mealDescription" rows="2" placeholder="Short description shown to users"></textarea></label>
+            <label>Ingredients <span class="hint">(one per line, or comma separated)</span><textarea id="mealIngredients" rows="3" placeholder="Paneer&#10;Butter&#10;Tomato puree"></textarea></label>
+            <label>Instructions <span class="hint">(one step per line)</span><textarea id="mealInstructions" rows="3" placeholder="Marinate the paneer&#10;Cook the gravy&#10;Combine and simmer"></textarea></label>
+            <label>Tags <span class="hint">(comma separated, optional)</span><input id="mealTags" placeholder="high-protein, quick"></label>
+            <label>Avoid for <span class="hint">(allergens/conditions this meal is unsuitable for, comma separated)</span><input id="mealAvoid" placeholder="dairy, nuts"></label>
+            <button type="submit">Add Meal</button>
+            <div id="mealFormMessage" class="message"></div>
+          </form>
+        </section>
+
+        <section class="card users-card">
+          <div class="section-head"><div><h2>Custom Meals</h2><p>Meals you've added through this panel.</p></div><button id="refreshMealsBtn" class="secondary">Refresh</button></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Type</th><th>Diet</th><th>Cuisine</th><th>Calories</th><th>Time</th><th>Actions</th></tr></thead>
+              <tbody id="mealsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- RECIPES TAB -->
+      <section class="tab-panel hidden" id="tab-recipes">
+        <section class="card users-card">
+          <div class="section-head">
+            <div><h2>Add a Recipe</h2><p>Recipes added here appear in the public recipe catalog for every user.</p></div>
+          </div>
+          <form id="recipeForm" class="entity-form">
+            <div class="form-grid">
+              <label>Name<input id="recipeName" required placeholder="Vegetable Biryani"></label>
+              <label>Emoji<input id="recipeEmoji" placeholder="📖" maxlength="4"></label>
+              <label>Type<input id="recipeType" placeholder="Recipe" value="Recipe"></label>
+              <label>Diet
+                <select id="recipeDiet">
+                  <option value="vegetarian" selected>Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                  <option value="non-vegetarian">Non-vegetarian</option>
+                  <option value="eggetarian">Eggetarian</option>
+                </select>
+              </label>
+              <label>Cuisine<input id="recipeCuisine" placeholder="Indian" value="Indian"></label>
+              <label>Cooking time (minutes)<input id="recipeTime" type="number" min="1" value="30"></label>
+              <label>Calories<input id="recipeCalories" type="number" min="0" value="0"></label>
+              <label>Protein (g)<input id="recipeProtein" type="number" min="0" value="0"></label>
+              <label>Carbs (g)<input id="recipeCarbs" type="number" min="0" value="0"></label>
+              <label>Fats (g)<input id="recipeFats" type="number" min="0" value="0"></label>
+            </div>
+            <label>Description<textarea id="recipeDescription" rows="2" placeholder="Short description shown to users"></textarea></label>
+            <label>Ingredients <span class="hint">(one per line, or comma separated)</span><textarea id="recipeIngredients" rows="3" placeholder="Basmati rice&#10;Mixed vegetables&#10;Biryani masala"></textarea></label>
+            <label>Instructions <span class="hint">(one step per line)</span><textarea id="recipeInstructions" rows="3" placeholder="Soak the rice&#10;Prepare the masala&#10;Layer and steam"></textarea></label>
+            <button type="submit">Add Recipe</button>
+            <div id="recipeFormMessage" class="message"></div>
+          </form>
+        </section>
+
+        <section class="card users-card">
+          <div class="section-head"><div><h2>Custom Recipes</h2><p>Recipes you've added through this panel.</p></div><button id="refreshRecipesBtn" class="secondary">Refresh</button></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Diet</th><th>Cuisine</th><th>Calories</th><th>Time</th><th>Actions</th></tr></thead>
+              <tbody id="recipesBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
