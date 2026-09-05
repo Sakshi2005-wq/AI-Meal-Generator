@@ -1,6 +1,6 @@
 "use strict";
 
-const API_URL = "/api";
+const API_URL = "https://ai-meal-generator-lva1.onrender.com/api";
 
 let currentUser = null;
 let favorites = [];
